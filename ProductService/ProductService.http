@@ -1,6 +1,3 @@
 @ProductService_HostAddress = http://localhost:5144
 
-GET {{ProductService_HostAddress}}/weatherforecast/
-Accept: application/json
-
 ###
