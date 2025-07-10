@@ -35,7 +35,14 @@ namespace frontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(User user)
         {
+            // Custom validation for company name
+            if (user.UserType == UserType.Corporate && string.IsNullOrWhiteSpace(user.CompanyName))
+            {
+                ModelState.AddModelError("CompanyName", "Kurumsal kullanıcılar için firma adı zorunludur");
+            }
+
             if (!ModelState.IsValid) return View(user);
+            
             var json = JsonSerializer.Serialize(user);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             await _httpClient.PostAsync(apiUrl, content);

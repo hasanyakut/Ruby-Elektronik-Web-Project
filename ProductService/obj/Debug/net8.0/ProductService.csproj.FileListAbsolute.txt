@@ -31,3 +31,4 @@ C:\Users\hasan\eticaret-microservices\ProductService\obj\Debug\net8.0\refint\Pro
 C:\Users\hasan\eticaret-microservices\ProductService\obj\Debug\net8.0\ProductService.pdb
 C:\Users\hasan\eticaret-microservices\ProductService\obj\Debug\net8.0\ProductService.genruntimeconfig.cache
 C:\Users\hasan\eticaret-microservices\ProductService\obj\Debug\net8.0\ref\ProductService.dll
+C:\Users\hasan\eticaret-microservices\ProductService\obj\Debug\net8.0\ProductService.sourcelink.json

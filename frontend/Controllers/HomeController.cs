@@ -14,6 +14,8 @@ public class HomeController : Controller
     private readonly HttpClient _httpClient;
     private readonly string productApiUrl = "http://localhost:5144/products";
 
+    private static List<ServiceRecord> _serviceRecords = new List<ServiceRecord>();
+
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
@@ -51,6 +53,36 @@ public class HomeController : Controller
         }
         
         return View(new List<Product>());
+    }
+
+    [HttpGet]
+    public IActionResult ServisKayit()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult ServisKayit(ServiceRecord model)
+    {
+        // Custom validation for company name
+        if (model.UserType == ServiceUserType.Corporate && string.IsNullOrWhiteSpace(model.FirmaAdi))
+        {
+            ModelState.AddModelError("FirmaAdi", "Kurumsal kullanıcılar için firma adı zorunludur");
+        }
+
+        if (ModelState.IsValid)
+        {
+            model.Id = _serviceRecords.Count + 1;
+            _serviceRecords.Add(model);
+            ViewBag.Basarili = true;
+        }
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult ServisKayitlari()
+    {
+        return View(_serviceRecords);
     }
 
     public IActionResult Privacy()

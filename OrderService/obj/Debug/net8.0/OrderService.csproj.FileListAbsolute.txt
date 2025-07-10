@@ -31,3 +31,4 @@ C:\Users\hasan\eticaret-microservices\OrderService\obj\Debug\net8.0\refint\Order
 C:\Users\hasan\eticaret-microservices\OrderService\obj\Debug\net8.0\OrderService.pdb
 C:\Users\hasan\eticaret-microservices\OrderService\obj\Debug\net8.0\OrderService.genruntimeconfig.cache
 C:\Users\hasan\eticaret-microservices\OrderService\obj\Debug\net8.0\ref\OrderService.dll
+C:\Users\hasan\eticaret-microservices\OrderService\obj\Debug\net8.0\OrderService.sourcelink.json

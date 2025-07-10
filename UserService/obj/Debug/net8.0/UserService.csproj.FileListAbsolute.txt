@@ -31,3 +31,4 @@ C:\Users\hasan\eticaret-microservices\UserService\obj\Debug\net8.0\refint\UserSe
 C:\Users\hasan\eticaret-microservices\UserService\obj\Debug\net8.0\UserService.pdb
 C:\Users\hasan\eticaret-microservices\UserService\obj\Debug\net8.0\UserService.genruntimeconfig.cache
 C:\Users\hasan\eticaret-microservices\UserService\obj\Debug\net8.0\ref\UserService.dll
+C:\Users\hasan\eticaret-microservices\UserService\obj\Debug\net8.0\UserService.sourcelink.json

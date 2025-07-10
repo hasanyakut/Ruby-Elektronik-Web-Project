@@ -30,14 +30,12 @@ app.UseHttpsRedirection();
 // Use CORS
 app.UseCors();
 
-
-
 // User Model
 // In-memory user list
 var users = new List<User>
 {
-    new User(1, "User 1", "user1@example.com"),
-    new User(2, "User 2", "user2@example.com")
+    new User(1, "Ahmet Yılmaz", "ahmet@example.com", UserType.Individual, null, "+90 555 123 4567"),
+    new User(2, "ABC Elektronik Ltd. Şti.", "info@abcelektronik.com", UserType.Corporate, "ABC Elektronik Ltd. Şti.", "+90 212 555 0123")
 };
 
 // CRUD Endpoints
@@ -51,6 +49,7 @@ app.MapGet("/users/{id}", (int id) =>
 
 app.MapPost("/users", (User user) =>
 {
+    user = user with { Id = users.Count > 0 ? users.Max(u => u.Id) + 1 : 1 };
     users.Add(user);
     return Results.Created($"/users/{user.Id}", user);
 });
@@ -73,4 +72,10 @@ app.MapDelete("/users/{id}", (int id) =>
 
 app.Run();
 
-record User(int Id, string Name, string Email);
+enum UserType
+{
+    Individual,
+    Corporate
+}
+
+record User(int Id, string Name, string Email, UserType UserType, string? CompanyName, string PhoneNumber);

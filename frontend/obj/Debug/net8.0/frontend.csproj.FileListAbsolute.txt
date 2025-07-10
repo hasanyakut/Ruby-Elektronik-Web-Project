@@ -28,3 +28,4 @@ C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\refint\frontend.
 C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\frontend.pdb
 C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\frontend.genruntimeconfig.cache
 C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\ref\frontend.dll
+C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\frontend.sourcelink.json
