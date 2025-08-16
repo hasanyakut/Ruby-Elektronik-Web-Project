@@ -13,6 +13,7 @@ C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\frontend.csproj.
 C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\frontend.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\frontend.RazorAssemblyInfo.cache
 C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\frontend.RazorAssemblyInfo.cs
+C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\frontend.sourcelink.json
 C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\staticwebassets\msbuild.frontend.Microsoft.AspNetCore.StaticWebAssets.props
@@ -28,4 +29,3 @@ C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\refint\frontend.
 C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\frontend.pdb
 C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\frontend.genruntimeconfig.cache
 C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\ref\frontend.dll
-C:\Users\hasan\eticaret-microservices\frontend\obj\Debug\net8.0\frontend.sourcelink.json

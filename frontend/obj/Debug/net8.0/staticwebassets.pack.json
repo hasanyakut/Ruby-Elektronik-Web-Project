@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\hasan\\eticaret-microservices\\frontend\\wwwroot\\img\\telefon.png",
+      "PackagePath": "staticwebassets\\img\\telefon.png"
+    },
+    {
       "Id": "C:\\Users\\hasan\\eticaret-microservices\\frontend\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

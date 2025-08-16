@@ -4,20 +4,22 @@
 }
 
 <style>
+    .container {
+        max-width: 1600px !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    
     .hero-section {
-        background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 100%);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 30px;
-        margin: 2rem 0;
-        padding: 8rem 0;
-        text-align: center;
+        background: transparent;
+        margin: 0;
+        padding: 6rem 0;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         min-height: 80vh;
         display: flex;
         align-items: center;
+        width: 100%;
     }
     
     .hero-section::before {
@@ -28,70 +30,56 @@
         right: 0;
         bottom: 0;
         background: 
-            radial-gradient(circle at 20% 80%, rgba(220, 53, 69, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+            radial-gradient(circle at 20% 80%, rgba(220, 53, 69, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(255, 69, 0, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.05) 0%, transparent 50%);
         opacity: 0.3;
     }
     
+
+    
     .hero-content {
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         color: white;
         position: relative;
         z-index: 2;
+        width: 100%;
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    
+    .hero-text {
+        flex: 1;
+        text-align: left;
+        padding-right: 2rem;
+        max-width: 700px;
     }
     
     .hero-title {
-        font-size: 3.5rem;
-        font-weight: 700;
+        font-size: 3.2rem;
+        font-weight: 800;
         margin-bottom: 1.5rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         color: #ffd700;
+        line-height: 1.2;
         animation: titleGlow 4s ease-in-out infinite alternate;
     }
     
     @@keyframes titleGlow {
-        0% { text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        100% { text-shadow: 0 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(255, 215, 0, 0.3); }
+        0% { text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        100% { text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 20px rgba(255, 215, 0, 0.3); }
     }
     
     .hero-subtitle {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         opacity: 0.95;
         margin-bottom: 2rem;
         text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        overflow: hidden;
-        white-space: nowrap;
-        position: relative;
-    }
-    
-    .hero-subtitle-content {
-        display: inline-block;
-        animation: slideText 20s linear infinite;
-        white-space: nowrap;
-    }
-    
-    .service-item {
-        display: inline-flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 0 2rem;
-        text-align: center;
-    }
-    
-    .service-icon {
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
-        color: #ffd700;
-    }
-    
-    .service-text {
-        font-size: 1.1rem;
-        font-weight: 600;
-    }
-    
-    @@keyframes slideText {
-        0% { transform: translateX(100%); }
-        100% { transform: translateX(-100%); }
+        color: #f3f3f3;
+        line-height: 1.6;
     }
     
     .hero-description {
@@ -99,6 +87,273 @@
         opacity: 0.9;
         margin-bottom: 3rem;
         text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        color: #e0e0e0;
+        line-height: 1.6;
+    }
+    
+    .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        margin-bottom: 2rem;
+        align-items: flex-start;
+    }
+    
+    .hero-device {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        max-width: 600px;
+    }
+    
+    .device-image {
+        width: 700px;
+        height: 800px;
+        background: transparent;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+
+    
+    .device-screen {
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    
+
+    
+
+    
+
+    
+    /* Services Section */
+    .services-section {
+        padding: 4rem 0;
+        background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: 3rem;
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .service-item {
+        display: flex;
+        align-items: center;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+    
+    .service-item:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(102, 126, 234, 0.3);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+    }
+    
+    .service-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #667eea, #ff6b6b);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1.5rem;
+        flex-shrink: 0;
+    }
+    
+    .service-icon i {
+        font-size: 2rem;
+        color: white;
+    }
+    
+    .service-text h4 {
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin: 0;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    /* Mobile responsive for services */
+    @@media (max-width: 768px) {
+        .services-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            max-width: 100%;
+        }
+        
+        .service-item {
+            padding: 1.5rem;
+        }
+        
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            margin-right: 1rem;
+        }
+        
+        .service-icon i {
+            font-size: 1.5rem;
+        }
+        
+        .service-text h4 {
+            font-size: 1.1rem;
+        }
+    }
+    
+    @@media (max-width: 480px) {
+        .services-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+    }
+    
+    /* Footer Styles */
+    .footer-section {
+        padding: 4rem 0 2rem 0;
+        background: transparent;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        margin-top: 4rem;
+    }
+    
+    .footer-widget {
+        margin-bottom: 2rem;
+    }
+    
+    .footer-title {
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .footer-text {
+        color: #e0e0e0;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    
+    .social-links {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #667eea, #ff6b6b);
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    .social-link:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+    
+    .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .footer-links li {
+        margin-bottom: 0.8rem;
+        color: #e0e0e0;
+    }
+    
+    .footer-links a {
+        color: #e0e0e0;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+    }
+    
+    .footer-links a:hover {
+        color: #667eea;
+        transform: translateX(5px);
+    }
+    
+    .contact-info p {
+        color: #e0e0e0;
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        line-height: 1.5;
+    }
+    
+    .footer-bottom {
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .copyright-text {
+        color: #e0e0e0;
+        margin: 0;
+    }
+    
+    .footer-bottom-links {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: flex-end;
+    }
+    
+    .footer-link {
+        color: #e0e0e0;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.3s ease;
+    }
+    
+    .footer-link:hover {
+        color: #667eea;
+    }
+    
+    /* Mobile responsive for footer */
+    @@media (max-width: 768px) {
+        .footer-bottom-links {
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .social-links {
+            justify-content: center;
+        }
+        
+        .footer-widget {
+            text-align: center;
+        }
     }
     
     .products-section {
@@ -117,7 +372,7 @@
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 2rem;
-        padding: 0 1rem;
+        padding: 0 0.5rem;
     }
     
     .product-card {
@@ -238,8 +493,18 @@
             gap: 1.5rem;
         }
         
+        .hero-content {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .hero-text {
+            padding-right: 0;
+            margin-bottom: 2rem;
+        }
+        
         .hero-title {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
         }
         
         .hero-subtitle {
@@ -254,10 +519,21 @@
             font-size: 2rem;
         }
         
+        .hero-content {
+            padding: 0 0.5rem;
+        }
+        
         .hero-section {
             padding: 4rem 0;
             min-height: 60vh;
         }
+        
+        .device-image {
+            width: 300px;
+            height: 400px;
+        }
+        
+
     }
 
     .btn.btn-primary, .btn.btn-primary:visited {
@@ -267,54 +543,197 @@
     .btn.btn-primary:hover, .btn.btn-primary:focus {
         color: #ffd700 !important;
     }
+    
+    /* Floating Contact Buttons */
+    .contact-float {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .contact-float .float-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .contact-float .float-button:hover {
+        transform: scale(1.1);
+    }
+    
+    .contact-float .float-button i {
+        color: white;
+        font-size: 28px;
+    }
+    
+    /* Email Button */
+    .email-float {
+        background: #007bff;
+        box-shadow: 0 4px 20px rgba(0, 123, 255, 0.4);
+    }
+    
+    .email-float:hover {
+        box-shadow: 0 6px 25px rgba(0, 123, 255, 0.6);
+    }
+    
+    /* WhatsApp Button */
+    .whatsapp-float {
+        background: #25d366;
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    }
+    
+    .whatsapp-float:hover {
+        box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+    }
+    
+    @@keyframes float-bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-8px);
+        }
+        60% {
+            transform: translateY(-4px);
+        }
+    }
+    
+    /* Apply animation to both buttons */
+    .email-float {
+        animation: float-bounce 2s infinite 0.5s;
+    }
+    
+    .whatsapp-float {
+        animation: float-bounce 2s infinite;
+    }
+    
+    /* Mobile responsive */
+    @@media (max-width: 768px) {
+        .contact-float {
+            bottom: 20px;
+            right: 20px;
+            gap: 12px;
+        }
+        
+        .contact-float .float-button {
+            width: 55px;
+            height: 55px;
+        }
+        
+        .contact-float .float-button i {
+            font-size: 24px;
+        }
+    }
 </style>
 
 <!-- Hero Section -->
 <div class="hero-section">
     <div class="container">
         <div class="hero-content">
-            <h1 class="hero-title">
-                <i class="fas fa-gem me-3"></i>Ruby Elektronik
-            </h1>
-            <h2 class="hero-subtitle" style="font-size: 1.6rem; margin-bottom: 1rem; color: #ffd700;">
-                <div class="hero-subtitle-content">
-                    <div class="service-item">
-                        <i class="fas fa-tv service-icon"></i>
-                        <span class="service-text">Televizyon</span>
-                    </div>
-                    <div class="service-item">
-                        <i class="fas fa-laptop service-icon"></i>
-                        <span class="service-text">Notebook</span>
-                    </div>
-                    <div class="service-item">
-                        <i class="fas fa-desktop service-icon"></i>
-                        <span class="service-text">Bilgisayar</span>
-                    </div>
-                    <div class="service-item">
-                        <i class="fas fa-mobile-alt service-icon"></i>
-                        <span class="service-text">Telefon</span>
-                    </div>
-                    <div class="service-item">
-                        <i class="fas fa-microchip service-icon"></i>
-                        <span class="service-text">Elektronik Kart</span>
-                    </div>
-                    <div class="service-item">
-                        <i class="fas fa-tools service-icon"></i>
-                        <span class="service-text">Küçük Ev Aletleri Tamir Merkezi</span>
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    Her Türlü Elektronik Cihazınız için Ruby Elektronik'e Gelebilirsiniz
+                </h1>
+                <p class="hero-subtitle">
+                    Onarım talebinizi oluşturmak ve süreç hakkında bilgi almak için aşağıdaki butonu kullanın.
+                </p>
+                <p class="hero-description">
+                    <strong>Hizmet Alanlarımız:</strong><br>
+                    Televizyon • Notebook • Bilgisayar • Telefon • Elektronik Kart • Küçük Ev Aletleri Tamir Merkezi
+                </p>
+                <div class="hero-buttons">
+                    <a href="/Home/ServisKayit" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.8rem 1.6rem; border-radius: 18px; box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); display: inline-block; width: fit-content; min-width: 220px;">
+                        <i class="fas fa-tools me-2"></i>Servis Kaydı Oluştur
+                    </a>
+                    <a href="#products" class="btn btn-primary" style="font-size: 1rem; padding: 0.7rem 1.5rem; border-radius: 15px; display: inline-block; width: fit-content; min-width: 180px;">
+                        <i class="fas fa-shopping-cart me-2"></i>Ürünleri İncele
+                    </a>
+                </div>
+            </div>
+            <div class="hero-device">
+                <div class="device-image">
+                    <div class="device-screen">
+                        <img src="/img/telefon.png" alt="Telefon" style="width: 100%; height: 100%; object-fit: contain;">
                     </div>
                 </div>
-            </h2>
-            <p class="hero-description">
-                <i class="fas fa-star me-2" style="color: #ffd700;"></i>
-                Kaliteli ürünler, uygun fiyatlar ve hızlı teslimat
-                <i class="fas fa-star me-2" style="color: #ffd700;"></i>
-            </p>
-            <div class="mt-4">
-                <a href="#products" class="btn btn-primary btn-lg" style="font-size: 1.2rem; padding: 1rem 2.5rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);">
-                    <i class="fas fa-shopping-cart me-2"></i>Ürünleri İncele
-                </a>
             </div>
-            <a href="/Home/ServisKayit" class="btn btn-primary mt-4">Servis Kaydı Oluştur</a>
+        </div>
+    </div>
+</div>
+
+<!-- Services Section -->
+<div class="services-section" id="services" style="padding: 4rem 0; background: rgba(255, 255, 255, 0.02);">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">
+            <i class="fas fa-tools me-2"></i>Hizmetlerimiz
+        </h2>
+        
+        <div class="services-grid">
+            <div class="service-item">
+                <div class="service-icon">
+                    <i class="fas fa-tv"></i>
+                </div>
+                <div class="service-text">
+                    <h4>Televizyon Tamiri</h4>
+                </div>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-icon">
+                    <i class="fas fa-laptop"></i>
+                </div>
+                <div class="service-text">
+                    <h4>Notebook Tamiri</h4>
+                </div>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-icon">
+                    <i class="fas fa-desktop"></i>
+                </div>
+                <div class="service-text">
+                    <h4>Bilgisayar Tamiri</h4>
+                </div>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="service-text">
+                    <h4>Telefon Tamiri</h4>
+                </div>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-icon">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <div class="service-text">
+                    <h4>Elektronik Kart Tamiri</h4>
+                </div>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-icon">
+                    <i class="fas fa-blender"></i>
+                </div>
+                <div class="service-text">
+                    <h4>Küçük Ev Aletleri Tamiri</h4>
+                </div>
+            </div>
+            
+
         </div>
     </div>
 </div>
@@ -519,9 +938,9 @@
                         <div class="mb-3">
                             <i class="fas fa-map-marker-alt text-primary me-2"></i>
                             <strong style="color: #fff;">Adres:</strong><br>
-                            <span style="color: #e0e0e0;">Atatürk Caddesi No: 123<br>
-                            Merkez Mahallesi<br>
-                            34000 İstanbul, Türkiye</span>
+                            <span style="color: #e0e0e0;">Abdullahazam Cd. NO:28/A,<br>
+                            Huzur Mahallesi, <br>
+                            34773 Ümraniye/İstanbul</span>
                         </div>
                         
                         <div class="mb-3">
@@ -596,6 +1015,91 @@
     </div>
 </div>
 
+<!-- Footer -->
+<footer class="footer-section" style="background: transparent; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 4rem;">
+    <div class="container">
+        <div class="row">
+            <!-- Company Info -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="footer-widget">
+                    <h5 class="footer-title">
+                        <i class="fas fa-shopping-cart me-2 text-primary"></i>Ruby Elektronik
+                    </h5>
+                    <p class="footer-text">
+                        2010 yılından bu yana elektronik sektöründe güvenilir çözüm ortağınız olarak hizmet vermekteyiz. 
+                        Müşteri memnuniyeti odaklı yaklaşımımızla kaliteli hizmet sunuyoruz.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-6 mb-4">
+                <div class="footer-widget">
+                    <h6 class="footer-title">Hızlı Linkler</h6>
+                    <ul class="footer-links">
+                        <li><a href="#services"><i class="fas fa-chevron-right me-2"></i>Hizmetlerimiz</a></li>
+                        <li><a href="#products"><i class="fas fa-chevron-right me-2"></i>Ürünler</a></li>
+                        <li><a href="#about"><i class="fas fa-chevron-right me-2"></i>Hakkımızda</a></li>
+                        <li><a href="#contact"><i class="fas fa-chevron-right me-2"></i>İletişim</a></li>
+                        <li><a href="/Home/ServisKayit"><i class="fas fa-chevron-right me-2"></i>Servis Kaydı</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Services -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="footer-widget">
+                    <h6 class="footer-title">Hizmetlerimiz</h6>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-tv me-2 text-primary"></i>Televizyon Tamiri</li>
+                        <li><i class="fas fa-laptop me-2 text-primary"></i>Notebook Tamiri</li>
+                        <li><i class="fas fa-desktop me-2 text-primary"></i>Bilgisayar Tamiri</li>
+                        <li><i class="fas fa-mobile-alt me-2 text-primary"></i>Telefon Tamiri</li>
+                        <li><i class="fas fa-microchip me-2 text-primary"></i>Elektronik Kart Tamiri</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Contact Info -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="footer-widget">
+                    <h6 class="footer-title">İletişim Bilgileri</h6>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt me-2 text-primary"></i>Abdullahazam Cd. NO:28/A, Huzur Mahallesi, 34773 Ümraniye/İstanbul</p>
+                        <p><i class="fas fa-phone me-2 text-primary"></i>+90 546 944 33 88</p>
+                        <p><i class="fas fa-envelope me-2 text-primary"></i>hasanhuseyinyakut@gmail.com</p>
+                        <p><i class="fas fa-clock me-2 text-primary"></i>Pzt-Cmt: 09:00-18:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Footer -->
+        <div class="footer-bottom">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="copyright-text">
+                       
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="footer-bottom-links">
+                        <a href="#" class="footer-link">Gizlilik Politikası</a>
+                        <a href="#" class="footer-link">Kullanım Şartları</a>
+                        <a href="#" class="footer-link">KVKK</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
 <script>
 // Kart animasyonları için
 document.addEventListener('DOMContentLoaded', function() {
@@ -626,4 +1130,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-</script> 
+</script>
+
+<!-- Floating Contact Buttons -->
+<div class="contact-float">
+    <!-- Email Button -->
+    <a href="mailto:hasanhuseyinyakut@gmail.com" class="float-button email-float" title="E-posta gönder">
+        <i class="fas fa-envelope"></i>
+    </a>
+    
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/905469443388" target="_blank" class="float-button whatsapp-float" title="WhatsApp ile iletişime geçin">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div> 
