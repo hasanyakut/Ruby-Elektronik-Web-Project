@@ -1,9 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using ProductService.Data;
+using ProductService.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add Entity Framework
+builder.Services.AddDbContext<ProductDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add CORS
 builder.Services.AddCors(options =>
@@ -30,46 +38,60 @@ app.UseHttpsRedirection();
 // Use CORS
 app.UseCors();
 
-
-
-// In-memory product list
-var products = new List<Product>
+// Ensure database is created
+using (var scope = app.Services.CreateScope())
 {
-    new Product(1, "Product 1", 100),
-    new Product(2, "Product 2", 200)
-};
+    var context = scope.ServiceProvider.GetRequiredService<ProductDbContext>();
+    context.Database.EnsureCreated();
+}
 
 // CRUD Endpoints
-app.MapGet("/products", () => products);
-
-app.MapGet("/products/{id}", (int id) =>
+app.MapGet("/products", async (ProductDbContext context) =>
 {
-    var product = products.FirstOrDefault(p => p.Id == id);
+    var products = await context.Products.Where(p => p.IsActive).ToListAsync();
+    return Results.Ok(products);
+});
+
+app.MapGet("/products/{id}", async (int id, ProductDbContext context) =>
+{
+    var product = await context.Products.FirstOrDefaultAsync(p => p.Id == id && p.IsActive);
     return product is not null ? Results.Ok(product) : Results.NotFound();
 });
 
-app.MapPost("/products", (Product product) =>
+app.MapPost("/products", async (Product product, ProductDbContext context) =>
 {
-    products.Add(product);
+    product.CreatedAt = DateTime.UtcNow;
+    context.Products.Add(product);
+    await context.SaveChangesAsync();
     return Results.Created($"/products/{product.Id}", product);
 });
 
-app.MapPut("/products/{id}", (int id, Product updatedProduct) =>
+app.MapPut("/products/{id}", async (int id, Product updatedProduct, ProductDbContext context) =>
 {
-    var index = products.FindIndex(p => p.Id == id);
-    if (index == -1) return Results.NotFound();
-    products[index] = updatedProduct with { Id = id };
-    return Results.Ok(updatedProduct);
+    var product = await context.Products.FindAsync(id);
+    if (product == null) return Results.NotFound();
+    
+    product.Name = updatedProduct.Name;
+    product.Price = updatedProduct.Price;
+    product.Description = updatedProduct.Description;
+    product.Category = updatedProduct.Category;
+    product.IsActive = updatedProduct.IsActive;
+    product.UpdatedAt = DateTime.UtcNow;
+    
+    await context.SaveChangesAsync();
+    return Results.Ok(product);
 });
 
-app.MapDelete("/products/{id}", (int id) =>
+app.MapDelete("/products/{id}", async (int id, ProductDbContext context) =>
 {
-    var product = products.FirstOrDefault(p => p.Id == id);
-    if (product is null) return Results.NotFound();
-    products.Remove(product);
+    var product = await context.Products.FindAsync(id);
+    if (product == null) return Results.NotFound();
+    
+    product.IsActive = false;
+    product.UpdatedAt = DateTime.UtcNow;
+    await context.SaveChangesAsync();
+    
     return Results.NoContent();
 });
 
 app.Run();
-
-record Product(int Id, string Name, decimal Price);

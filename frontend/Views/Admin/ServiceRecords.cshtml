@@ -1,0 +1,184 @@
+@model List<frontend.Models.ServiceRecord>
+@{
+    ViewData["Title"] = "Servis Kayıtları Yönetimi";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-tools me-2"></i>Servis Kayıtları Yönetimi</h2>
+                <a href="/admin/dashboard" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Dashboard'a Dön
+                </a>
+            </div>
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <!-- Aktif Servis Kayıtları -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-clock me-2"></i>Aktif Servis Kayıtları
+                        <span class="badge bg-light text-primary ms-2">@Model.Count(s => s.IsActive)</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @{
+                        var activeRecords = Model.Where(s => s.IsActive).ToList();
+                    }
+                    @if (activeRecords.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Ad Soyad</th>
+                                        <th>Kullanıcı Tipi</th>
+                                        <th>Firma Adı</th>
+                                        <th>Telefon</th>
+                                        <th>Ürün Türü</th>
+                                        <th>Arıza Açıklaması</th>
+                                        <th>Kayıt Tarihi</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var kayit in activeRecords)
+                                    {
+                                        <tr>
+                                            <td>@kayit.Id</td>
+                                            <td>@kayit.Ad @kayit.Soyad</td>
+                                            <td>
+                                                @if (kayit.UserType == frontend.Models.ServiceUserType.Corporate)
+                                                {
+                                                    <span class="badge bg-primary">Kurumsal</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Bireysel</span>
+                                                }
+                                            </td>
+                                            <td>@(kayit.FirmaAdi ?? "-")</td>
+                                            <td>@kayit.TelefonNumarasi</td>
+                                            <td>@kayit.UrunTuru</td>
+                                            <td>
+                                                <div style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" 
+                                                     title="@kayit.ArizaAciklamasi">
+                                                    @kayit.ArizaAciklamasi
+                                                </div>
+                                            </td>
+                                            <td>@kayit.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                                            <td>
+                                                <a href="/admin/servicerecords/complete/@kayit.Id" 
+                                                   class="btn btn-success btn-sm"
+                                                   onclick="return confirm('Bu servis kaydını tamamlandı olarak işaretlemek istediğinizden emin misiniz?')">
+                                                    <i class="fas fa-check me-1"></i>Tamamlandı
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Aktif servis kaydı bulunmamaktadır.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Tamamlanan Servis Kayıtları -->
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-check-circle me-2"></i>Tamamlanan Servis Kayıtları
+                        <span class="badge bg-light text-success ms-2">@Model.Count(s => !s.IsActive)</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @{
+                        var completedRecords = Model.Where(s => !s.IsActive).ToList();
+                    }
+                    @if (completedRecords.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead class="table-success">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Ad Soyad</th>
+                                        <th>Kullanıcı Tipi</th>
+                                        <th>Firma Adı</th>
+                                        <th>Telefon</th>
+                                        <th>Ürün Türü</th>
+                                        <th>Arıza Açıklaması</th>
+                                        <th>Kayıt Tarihi</th>
+                                        <th>Tamamlanma Tarihi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var kayit in completedRecords)
+                                    {
+                                        <tr class="table-light">
+                                            <td>@kayit.Id</td>
+                                            <td>@kayit.Ad @kayit.Soyad</td>
+                                            <td>
+                                                @if (kayit.UserType == frontend.Models.ServiceUserType.Corporate)
+                                                {
+                                                    <span class="badge bg-primary">Kurumsal</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Bireysel</span>
+                                                }
+                                            </td>
+                                            <td>@(kayit.FirmaAdi ?? "-")</td>
+                                            <td>@kayit.TelefonNumarasi</td>
+                                            <td>@kayit.UrunTuru</td>
+                                            <td>
+                                                <div style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" 
+                                                     title="@kayit.ArizaAciklamasi">
+                                                    @kayit.ArizaAciklamasi
+                                                </div>
+                                            </td>
+                                            <td>@kayit.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                                            <td>@(kayit.UpdatedAt?.ToString("dd.MM.yyyy HH:mm") ?? "-")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-check-circle fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Tamamlanan servis kaydı bulunmamaktadır.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -16,6 +16,7 @@ namespace frontend.Controllers
         private readonly string productApiUrl = "http://localhost:5144/products";
         private readonly string orderApiUrl = "http://localhost:5145/orders";
         private readonly string userApiUrl = "http://localhost:5153/users";
+        private readonly string serviceApiUrl = "http://localhost:7004/servicerecords";
 
         public AdminController()
         {
@@ -534,6 +535,70 @@ namespace frontend.Controllers
             }
             
             return RedirectToAction("Users");
+        }
+
+        // Service Records Management
+        [Route("servicerecords")]
+        public async Task<IActionResult> ServiceRecords()
+        {
+            // Giriş kontrolü
+            if (HttpContext.Session.GetString("AdminLoggedIn") != "true")
+            {
+                return RedirectToAction("Login");
+            }
+
+            ViewData["Title"] = "Ruby Elektronik - Servis Kayıtları Yönetimi";
+            ViewBag.AdminUsername = HttpContext.Session.GetString("AdminUsername");
+            
+            try
+            {
+                var response = await _httpClient.GetAsync($"{serviceApiUrl}/all");
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var serviceRecords = JsonSerializer.Deserialize<List<ServiceRecord>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    return View(serviceRecords ?? new List<ServiceRecord>());
+                }
+                else
+                {
+                    TempData["Error"] = $"Servis kayıtları yüklenirken hata oluştu: {response.StatusCode}";
+                    return View(new List<ServiceRecord>());
+                }
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Servis kayıtları yüklenirken bağlantı hatası oluştu";
+                return View(new List<ServiceRecord>());
+            }
+        }
+
+        [Route("servicerecords/complete/{id}")]
+        public async Task<IActionResult> CompleteServiceRecord(int id)
+        {
+            // Giriş kontrolü
+            if (HttpContext.Session.GetString("AdminLoggedIn") != "true")
+            {
+                return RedirectToAction("Login");
+            }
+
+            try
+            {
+                var response = await _httpClient.PutAsync($"{serviceApiUrl}/{id}/complete", null);
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["Success"] = "Servis kaydı başarıyla tamamlandı";
+                }
+                else
+                {
+                    TempData["Error"] = "Servis kaydı tamamlanırken hata oluştu";
+                }
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Servis kaydı tamamlanırken bağlantı hatası oluştu";
+            }
+            
+            return RedirectToAction("ServiceRecords");
         }
     }
 } 

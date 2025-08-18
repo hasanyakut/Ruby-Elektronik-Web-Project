@@ -1,9 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using OrderService.Data;
+using OrderService.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add Entity Framework
+builder.Services.AddDbContext<OrderDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add CORS
 builder.Services.AddCors(options =>
@@ -30,47 +38,64 @@ app.UseHttpsRedirection();
 // Use CORS
 app.UseCors();
 
-
-
-// Order Model
-// In-memory order list
-var orders = new List<Order>
+// Ensure database is created
+using (var scope = app.Services.CreateScope())
 {
-    new Order(1, "Product 1", 2),
-    new Order(2, "Product 2", 1)
-};
+    var context = scope.ServiceProvider.GetRequiredService<OrderDbContext>();
+    context.Database.EnsureCreated();
+}
 
 // CRUD Endpoints
-app.MapGet("/orders", () => orders);
-
-app.MapGet("/orders/{id}", (int id) =>
+app.MapGet("/orders", async (OrderDbContext context) =>
 {
-    var order = orders.FirstOrDefault(o => o.Id == id);
+    var orders = await context.Orders.ToListAsync();
+    return Results.Ok(orders);
+});
+
+app.MapGet("/orders/{id}", async (int id, OrderDbContext context) =>
+{
+    var order = await context.Orders.FirstOrDefaultAsync(o => o.Id == id);
     return order is not null ? Results.Ok(order) : Results.NotFound();
 });
 
-app.MapPost("/orders", (Order order) =>
+app.MapPost("/orders", async (Order order, OrderDbContext context) =>
 {
-    orders.Add(order);
+    order.CreatedAt = DateTime.UtcNow;
+    order.TotalPrice = order.UnitPrice * order.Quantity;
+    context.Orders.Add(order);
+    await context.SaveChangesAsync();
     return Results.Created($"/orders/{order.Id}", order);
 });
 
-app.MapPut("/orders/{id}", (int id, Order updatedOrder) =>
+app.MapPut("/orders/{id}", async (int id, Order updatedOrder, OrderDbContext context) =>
 {
-    var index = orders.FindIndex(o => o.Id == id);
-    if (index == -1) return Results.NotFound();
-    orders[index] = updatedOrder with { Id = id };
-    return Results.Ok(updatedOrder);
+    var order = await context.Orders.FindAsync(id);
+    if (order == null) return Results.NotFound();
+    
+    order.UserId = updatedOrder.UserId;
+    order.ProductId = updatedOrder.ProductId;
+    order.Quantity = updatedOrder.Quantity;
+    order.UnitPrice = updatedOrder.UnitPrice;
+    order.TotalPrice = updatedOrder.UnitPrice * updatedOrder.Quantity;
+    order.Status = updatedOrder.Status;
+    order.Notes = updatedOrder.Notes;
+    order.ProductName = updatedOrder.ProductName;
+    order.UserName = updatedOrder.UserName;
+    order.UpdatedAt = DateTime.UtcNow;
+    
+    await context.SaveChangesAsync();
+    return Results.Ok(order);
 });
 
-app.MapDelete("/orders/{id}", (int id) =>
+app.MapDelete("/orders/{id}", async (int id, OrderDbContext context) =>
 {
-    var order = orders.FirstOrDefault(o => o.Id == id);
-    if (order is null) return Results.NotFound();
-    orders.Remove(order);
+    var order = await context.Orders.FindAsync(id);
+    if (order == null) return Results.NotFound();
+    
+    context.Orders.Remove(order);
+    await context.SaveChangesAsync();
+    
     return Results.NoContent();
 });
 
 app.Run();
-
-record Order(int Id, string ProductName, int Quantity);

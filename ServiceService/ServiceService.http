@@ -1,0 +1,41 @@
+### Get all service records
+GET http://localhost:7004/servicerecords
+
+### Get all service records (including inactive ones)
+GET http://localhost:7004/servicerecords/all
+
+### Get service record by ID
+GET http://localhost:7004/servicerecords/1
+
+### Create new service record
+POST http://localhost:7004/servicerecords
+Content-Type: application/json
+
+{
+  "ad": "Test",
+  "soyad": "Kullanıcı",
+  "userType": 0,
+  "telefonNumarasi": "+90 555 123 4567",
+  "urunTuru": "Test Ürün",
+  "arizaAciklamasi": "Test arıza açıklaması"
+}
+
+### Update service record
+PUT http://localhost:7004/servicerecords/1
+Content-Type: application/json
+
+{
+  "ad": "Güncellenmiş",
+  "soyad": "Kullanıcı",
+  "userType": 1,
+  "firmaAdi": "Test Firma",
+  "telefonNumarasi": "+90 555 123 4567",
+  "urunTuru": "Güncellenmiş Ürün",
+  "arizaAciklamasi": "Güncellenmiş arıza açıklaması"
+}
+
+### Complete service record (mark as inactive)
+PUT http://localhost:7004/servicerecords/1/complete
+
+### Delete service record (soft delete)
+DELETE http://localhost:7004/servicerecords/1

@@ -44,5 +44,14 @@ namespace frontend.Models
         [StringLength(500, MinimumLength = 10, ErrorMessage = "Arıza açıklaması en az 10 karakter olmalıdır")]
         [Display(Name = "Arıza Açıklaması")]
         public string ArizaAciklamasi { get; set; } = string.Empty;
+        
+        [Display(Name = "Aktif")]
+        public bool IsActive { get; set; } = true;
+        
+        [Display(Name = "Oluşturulma Tarihi")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        
+        [Display(Name = "Güncellenme Tarihi")]
+        public DateTime? UpdatedAt { get; set; }
     }
 } 
