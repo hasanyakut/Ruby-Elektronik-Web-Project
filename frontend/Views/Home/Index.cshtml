@@ -130,6 +130,21 @@
         position: relative;
     }
     
+    .hero-logo {
+        width: 700px;
+        height: auto;
+        opacity: 0.15;
+        filter: brightness(1.2) contrast(1.1);
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .hero-logo:hover {
+        opacity: 0.25;
+        transform: scale(1.05);
+    }
+    
 
     
 
@@ -533,6 +548,11 @@
             height: 400px;
         }
         
+        .hero-logo {
+            width: 400px;
+            opacity: 0.12;
+        }
+        
 
     }
 
@@ -663,6 +683,7 @@
             <div class="hero-device">
                 <div class="device-image">
                     <div class="device-screen">
+                        <img src="/img/logo.png" alt="Ruby Elektronik Logo" class="hero-logo" />
                     </div>
                 </div>
             </div>

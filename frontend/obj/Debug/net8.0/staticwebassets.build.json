@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "GIvdxKbsTDlbXVhqxvy0ypK/10qmiZ355AOFrQ41XkI=",
+  "Hash": "9qddcR6j5RnYCY+03V3//2p50nR0Bg1ygw92JZyLyFo=",
   "Source": "frontend",
   "BasePath": "_content/frontend",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\hasan\\eticaret-microservices\\frontend\\wwwroot\\img\\logo.png",
+      "SourceId": "frontend",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\hasan\\eticaret-microservices\\frontend\\wwwroot\\",
+      "BasePath": "_content/frontend",
+      "RelativePath": "img/logo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\logo.png"
     },
     {
       "Identity": "C:\\Users\\hasan\\eticaret-microservices\\frontend\\wwwroot\\img\\telefon.png",
