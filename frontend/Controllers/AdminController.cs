@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using frontend.Models;
+using frontend.Services;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace frontend.Controllers
     public class AdminController : Controller
     {
         private readonly HttpClient _httpClient;
+        private readonly ServiceRecordPdfService _pdfService;
         private readonly string productApiUrl = "http://localhost:5144/products";
         private readonly string orderApiUrl = "http://localhost:5145/orders";
         private readonly string userApiUrl = "http://localhost:5153/users";
@@ -22,6 +24,7 @@ namespace frontend.Controllers
         {
             _httpClient = new HttpClient();
             _httpClient.Timeout = TimeSpan.FromSeconds(10);
+            _pdfService = new ServiceRecordPdfService();
         }
 
         // Login sayfası
@@ -599,6 +602,111 @@ namespace frontend.Controllers
             }
             
             return RedirectToAction("ServiceRecords");
+        }
+
+        [Route("servicerecords/delete/{id}")]
+        public async Task<IActionResult> DeleteServiceRecord(int id)
+        {
+            // Giriş kontrolü
+            if (HttpContext.Session.GetString("AdminLoggedIn") != "true")
+            {
+                return RedirectToAction("Login");
+            }
+
+            try
+            {
+                // Tamamen sil (permanent delete)
+                var response = await _httpClient.DeleteAsync($"{serviceApiUrl}/{id}/permanent");
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["Success"] = "Servis kaydı tamamen silindi";
+                }
+                else
+                {
+                    TempData["Error"] = "Servis kaydı silinirken hata oluştu";
+                }
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Servis kaydı silinirken bağlantı hatası oluştu";
+            }
+            
+            return RedirectToAction("ServiceRecords");
+        }
+
+        // PDF İndirme Endpoint'leri
+        [Route("servicerecords/pdf/{id}")]
+        public async Task<IActionResult> DownloadServiceRecordPdf(int id)
+        {
+            // Giriş kontrolü
+            if (HttpContext.Session.GetString("AdminLoggedIn") != "true")
+            {
+                return RedirectToAction("Login");
+            }
+
+            try
+            {
+                // Önce tüm kayıtları getir, sonra ID'ye göre filtrele
+                var response = await _httpClient.GetAsync($"{serviceApiUrl}/all");
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var serviceRecords = JsonSerializer.Deserialize<List<ServiceRecord>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    
+                    var serviceRecord = serviceRecords?.FirstOrDefault(s => s.Id == id);
+                    if (serviceRecord != null)
+                    {
+                        var pdfBytes = _pdfService.GenerateServiceRecordPdf(serviceRecord);
+                        var fileName = $"ServisKaydi_{serviceRecord.Ad}_{serviceRecord.Soyad}_{serviceRecord.Id}_{DateTime.Now:yyyyMMdd}.html";
+                        
+                        return File(pdfBytes, "text/html", fileName);
+                    }
+                }
+                
+                TempData["Error"] = "Servis kaydı bulunamadı";
+                return RedirectToAction("ServiceRecords");
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"PDF oluşturulurken hata oluştu: {ex.Message} - Inner: {ex.InnerException?.Message} - Stack: {ex.StackTrace}";
+                return RedirectToAction("ServiceRecords");
+            }
+        }
+
+        [Route("servicerecords/pdf/all")]
+        public async Task<IActionResult> DownloadAllServiceRecordsPdf()
+        {
+            // Giriş kontrolü
+            if (HttpContext.Session.GetString("AdminLoggedIn") != "true")
+            {
+                return RedirectToAction("Login");
+            }
+
+            try
+            {
+                var response = await _httpClient.GetAsync($"{serviceApiUrl}/all");
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var serviceRecords = JsonSerializer.Deserialize<List<ServiceRecord>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    
+                    if (serviceRecords != null && serviceRecords.Any())
+                    {
+                        var pdfBytes = _pdfService.GenerateServiceRecordsPdf(serviceRecords);
+                        var fileName = $"ServisKayitlari_Raporu_{DateTime.Now:yyyyMMdd_HHmm}.html";
+                        
+                        return File(pdfBytes, "text/html", fileName);
+                    }
+                }
+                
+                TempData["Error"] = "Servis kayıtları bulunamadı";
+                return RedirectToAction("ServiceRecords");
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"PDF oluşturulurken hata oluştu: {ex.Message} - Inner: {ex.InnerException?.Message} - Stack: {ex.StackTrace}";
+                return RedirectToAction("ServiceRecords");
+            }
         }
     }
 } 

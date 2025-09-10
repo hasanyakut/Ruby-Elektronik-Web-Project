@@ -7,11 +7,16 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 admin-container">
                 <h2><i class="fas fa-tools me-2"></i>Servis Kayıtları Yönetimi</h2>
-                <a href="/admin/dashboard" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left me-2"></i>Dashboard'a Dön
-                </a>
+                <div>
+                    <a href="/admin/servicerecords/pdf/all" class="btn btn-danger me-2">
+                        <i class="fas fa-file-pdf me-2"></i>Tümünü PDF İndir
+                    </a>
+                    <a href="/admin/dashboard" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Dashboard'a Dön
+                    </a>
+                </div>
             </div>
 
             @if (TempData["Success"] != null)
@@ -86,11 +91,18 @@
                                             </td>
                                             <td>@kayit.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
                                             <td>
-                                                <a href="/admin/servicerecords/complete/@kayit.Id" 
-                                                   class="btn btn-success btn-sm"
-                                                   onclick="return confirm('Bu servis kaydını tamamlandı olarak işaretlemek istediğinizden emin misiniz?')">
-                                                    <i class="fas fa-check me-1"></i>Tamamlandı
-                                                </a>
+                                                <div class="btn-group" role="group">
+                                                    <a href="/admin/servicerecords/pdf/@kayit.Id" 
+                                                       class="btn btn-danger btn-sm me-1"
+                                                       title="PDF İndir">
+                                                        <i class="fas fa-file-pdf"></i>
+                                                    </a>
+                                                    <a href="/admin/servicerecords/complete/@kayit.Id" 
+                                                       class="btn btn-success btn-sm"
+                                                       onclick="return confirm('Bu servis kaydını tamamlandı olarak işaretlemek istediğinizden emin misiniz?')">
+                                                        <i class="fas fa-check me-1"></i>Tamamlandı
+                                                    </a>
+                                                </div>
                                             </td>
                                         </tr>
                                     }
@@ -135,6 +147,7 @@
                                         <th>Arıza Açıklaması</th>
                                         <th>Kayıt Tarihi</th>
                                         <th>Tamamlanma Tarihi</th>
+                                        <th>İşlemler</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -164,6 +177,21 @@
                                             </td>
                                             <td>@kayit.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
                                             <td>@(kayit.UpdatedAt?.ToString("dd.MM.yyyy HH:mm") ?? "-")</td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <a href="/admin/servicerecords/pdf/@kayit.Id" 
+                                                       class="btn btn-danger btn-sm me-1"
+                                                       title="PDF İndir">
+                                                        <i class="fas fa-file-pdf"></i>
+                                                    </a>
+                                                    <a href="/admin/servicerecords/delete/@kayit.Id" 
+                                                       class="btn btn-outline-danger btn-sm"
+                                                       title="Tamamen Sil"
+                                                       onclick="return confirm('Bu servis kaydını TAMAMEN SİLMEK istediğinizden emin misiniz? Bu işlem geri alınamaz ve kayıt veritabanından tamamen silinecektir!')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>

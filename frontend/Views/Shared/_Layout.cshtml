@@ -17,7 +17,7 @@
             background: #0f1419;
             min-height: 100vh;
             padding-bottom: 40px;
-            padding-top: 100px; /* Add padding to prevent content from being hidden behind fixed navbar */
+            padding-top: 120px; /* Increased padding to prevent content from being hidden behind fixed navbar */
             color: #f3f3f3;
             font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             position: relative;
@@ -49,7 +49,8 @@
             top: 0;
             left: 0;
             right: 0;
-            z-index: 1000;
+            z-index: 1050; /* Increased z-index to ensure navbar stays on top */
+            min-height: 100px; /* Ensure consistent navbar height */
         }
         
         .navbar-brand {
@@ -132,6 +133,11 @@
         
         .container {
             margin-top: 0;
+        }
+        
+        /* Additional spacing for admin pages */
+        .admin-container {
+            margin-top: 20px; /* Extra margin for admin pages */
         }
         
         h1, h2, h3, h4, h5, h6 {
@@ -290,6 +296,95 @@
             color: #ff6b6b;
         }
         
+        /* Dashboard text color fixes */
+        .text-muted {
+            color: #e0e0e0 !important; /* Change muted text to light gray/white */
+        }
+        
+        .card-body p {
+            color: #e0e0e0 !important; /* Make paragraph text visible */
+        }
+        
+        .lead {
+            color: #e0e0e0 !important; /* Make lead text visible */
+        }
+        
+        .list-group-item {
+            background: rgba(255, 255, 255, 0.05) !important;
+            color: #e0e0e0 !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .list-group-item:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        /* Button hover text color fixes */
+        .btn:hover {
+            color: #fff !important;
+        }
+        
+        .btn-primary:hover {
+            color: #fff !important;
+        }
+        
+        .btn-success:hover {
+            color: #fff !important;
+        }
+        
+        .btn-warning:hover {
+            color: #fff !important;
+        }
+        
+        .btn-secondary:hover {
+            color: #fff !important;
+        }
+        
+        .btn-outline-primary:hover {
+            color: #fff !important;
+        }
+        
+        .btn-outline-secondary:hover {
+            color: #fff !important;
+        }
+        
+        .btn-outline-danger:hover {
+            color: #fff !important;
+        }
+        
+        /* Button normal state text color fixes */
+        .btn {
+            color: #fff !important;
+        }
+        
+        .btn-primary {
+            color: #fff !important;
+        }
+        
+        .btn-success {
+            color: #fff !important;
+        }
+        
+        .btn-warning {
+            color: #fff !important;
+        }
+        
+        .btn-secondary {
+            color: #fff !important;
+        }
+        
+        .btn-outline-primary {
+            color: #fff !important;
+        }
+        
+        .btn-outline-secondary {
+            color: #fff !important;
+        }
+        
+        .btn-outline-danger {
+            color: #fff !important;
+        }
+        
         /* Navbar Button Styling */
         .navbar-btn {
             background: linear-gradient(135deg, #667eea 0%, #ff6b6b 100%);
@@ -314,6 +409,35 @@
             transform: translateY(-3px);
             box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
             text-decoration: none;
+        }
+        
+        /* Responsive adjustments for navbar */
+        @@media (max-width: 991.98px) {
+            body {
+                padding-top: 140px; /* Extra padding for mobile navbar */
+            }
+            
+            .navbar {
+                min-height: 120px; /* Taller navbar on mobile */
+            }
+            
+            .navbar-brand img {
+                height: 60px; /* Smaller logo on mobile */
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem !important; /* Smaller text on mobile */
+            }
+        }
+        
+        @@media (max-width: 575.98px) {
+            body {
+                padding-top: 160px; /* Even more padding for very small screens */
+            }
+            
+            .navbar {
+                min-height: 140px; /* Even taller navbar on very small screens */
+            }
         }
     </style>
     @RenderSection("Styles", required: false)

@@ -103,6 +103,17 @@ app.MapDelete("/servicerecords/{id}", async (int id, ServiceDbContext context) =
     return Results.NoContent();
 });
 
+app.MapDelete("/servicerecords/{id}/permanent", async (int id, ServiceDbContext context) =>
+{
+    var serviceRecord = await context.ServiceRecords.FindAsync(id);
+    if (serviceRecord == null) return Results.NotFound();
+    
+    context.ServiceRecords.Remove(serviceRecord);
+    await context.SaveChangesAsync();
+    
+    return Results.NoContent();
+});
+
 app.MapPut("/servicerecords/{id}/complete", async (int id, ServiceDbContext context) =>
 {
     var serviceRecord = await context.ServiceRecords.FindAsync(id);
