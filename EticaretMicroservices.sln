@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceService", "ServiceService\ServiceService.csproj", "{40C00BEE-E147-4657-BD2C-216C8B5A6D02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubyElektronik", "RubyElektronik\RubyElektronik.csproj", "{64220C69-9F02-48F1-9A50-7B53DDD2E694}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +14,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{40C00BEE-E147-4657-BD2C-216C8B5A6D02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{40C00BEE-E147-4657-BD2C-216C8B5A6D02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{40C00BEE-E147-4657-BD2C-216C8B5A6D02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{40C00BEE-E147-4657-BD2C-216C8B5A6D02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64220C69-9F02-48F1-9A50-7B53DDD2E694}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64220C69-9F02-48F1-9A50-7B53DDD2E694}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64220C69-9F02-48F1-9A50-7B53DDD2E694}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64220C69-9F02-48F1-9A50-7B53DDD2E694}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

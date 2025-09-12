@@ -1,0 +1,23 @@
+@model List<RubyElektronik.Models.Order>
+@{
+    ViewData["Title"] = "Ruby Elektronik - Sipariş Yönetimi";
+}
+<h2>Orders</h2>
+<a href="/Orders/Create">Add Order</a>
+<table class="table">
+    <thead>
+        <tr><th>Product Name</th><th>Quantity</th><th></th></tr>
+    </thead>
+    <tbody>
+    @foreach (var o in Model)
+    {
+        <tr>
+            <td>@o.ProductName</td>
+            <td>@o.Quantity</td>
+            <td>
+                <a href="/Orders/Delete/@o.Id" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table> 

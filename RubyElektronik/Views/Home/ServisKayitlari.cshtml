@@ -1,0 +1,46 @@
+@model List<RubyElektronik.Models.ServiceRecord>
+@{
+    ViewData["Title"] = "Servis Kayıtları";
+}
+<h2 class="mb-4">Servis Kayıtları</h2>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Ad Soyad / Firma</th>
+            <th>Kullanıcı Tipi</th>
+            <th>Firma Adı</th>
+            <th>Telefon</th>
+            <th>Ürün Türü</th>
+            <th>Arıza Açıklaması</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var kayit in Model)
+        {
+            <tr>
+                <td>@kayit.Id</td>
+                <td>@kayit.Ad @kayit.Soyad</td>
+                <td>
+                    @if (kayit.UserType == RubyElektronik.Models.ServiceUserType.Corporate)
+                    {
+                        <span class="badge badge-primary">Kurumsal</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-secondary">Bireysel</span>
+                    }
+                </td>
+                <td>@(kayit.FirmaAdi ?? "-")</td>
+                <td>@kayit.TelefonNumarasi</td>
+                <td>@kayit.UrunTuru</td>
+                <td>
+                    <div style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" 
+                         title="@kayit.ArizaAciklamasi">
+                        @kayit.ArizaAciklamasi
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> 

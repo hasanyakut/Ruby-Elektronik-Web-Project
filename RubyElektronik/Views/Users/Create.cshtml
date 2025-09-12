@@ -1,0 +1,62 @@
+@model RubyElektronik.Models.User
+@{
+    ViewData["Title"] = "Ruby Elektronik - Yeni Kullanıcı";
+}
+<h2>Yeni Kullanıcı Kaydı</h2>
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="UserType"></label>
+        <select asp-for="UserType" class="form-control" id="userTypeSelect">
+            <option value="">Kullanıcı tipi seçiniz</option>
+            <option value="Individual">Bireysel</option>
+            <option value="Corporate">Kurumsal</option>
+        </select>
+        <span asp-validation-for="UserType" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group" id="companyNameGroup" style="display: none;">
+        <label asp-for="CompanyName"></label>
+        <input asp-for="CompanyName" class="form-control" />
+        <span asp-validation-for="CompanyName" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" placeholder="+90 555 123 4567" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</form>
+
+<a href="/Users" class="btn btn-secondary">Listeye Dön</a>
+
+@section Scripts {
+    <script>
+        document.getElementById('userTypeSelect').addEventListener('change', function() {
+            const companyNameGroup = document.getElementById('companyNameGroup');
+            const companyNameInput = document.querySelector('input[name="CompanyName"]');
+            
+            if (this.value === 'Corporate') {
+                companyNameGroup.style.display = 'block';
+                companyNameInput.setAttribute('required', 'required');
+            } else {
+                companyNameGroup.style.display = 'none';
+                companyNameInput.removeAttribute('required');
+                companyNameInput.value = '';
+            }
+        });
+    </script>
+} 
