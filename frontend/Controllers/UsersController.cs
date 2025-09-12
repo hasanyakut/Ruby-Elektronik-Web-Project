@@ -1,29 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using frontend.Models;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Text.Json;
-using System.Text;
+using frontend.Data;
 
 namespace frontend.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly HttpClient _httpClient;
-        private readonly string apiUrl = "http://localhost:5145/users";
+        private readonly ApplicationDbContext _context;
 
-        public UsersController()
+        public UsersController(ApplicationDbContext context)
         {
-            _httpClient = new HttpClient();
+            _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            var response = await _httpClient.GetAsync(apiUrl);
-            var json = await response.Content.ReadAsStringAsync();
-            var users = JsonSerializer.Deserialize<List<User>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            return View(users);
+            try
+            {
+                var users = await _context.Users.Where(u => u.IsActive).ToListAsync();
+                return View(users);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Kullanıcılar yüklenirken hata oluştu: {ex.Message}";
+                return View(new List<User>());
+            }
         }
 
         [HttpGet]
@@ -43,15 +45,42 @@ namespace frontend.Controllers
 
             if (!ModelState.IsValid) return View(user);
             
-            var json = JsonSerializer.Serialize(user);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            await _httpClient.PostAsync(apiUrl, content);
-            return RedirectToAction("Index");
+            try
+            {
+                user.CreatedAt = DateTime.UtcNow;
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Kullanıcı başarıyla eklendi";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Kullanıcı eklenirken hata oluştu: {ex.Message}";
+                return View(user);
+            }
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            await _httpClient.DeleteAsync($"{apiUrl}/{id}");
+            try
+            {
+                var user = await _context.Users.FindAsync(id);
+                if (user == null)
+                {
+                    TempData["Error"] = "Kullanıcı bulunamadı";
+                    return RedirectToAction("Index");
+                }
+                
+                user.IsActive = false;
+                user.UpdatedAt = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Kullanıcı başarıyla silindi";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Kullanıcı silinirken hata oluştu: {ex.Message}";
+            }
+            
             return RedirectToAction("Index");
         }
     }

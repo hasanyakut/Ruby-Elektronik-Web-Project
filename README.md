@@ -1,14 +1,15 @@
-# Ruby Elektronik Microservices
+# Ruby Elektronik E-Ticaret Sistemi
 
-Bu proje, Ruby Elektronik için geliştirilmiş mikroservis mimarisinde bir e-ticaret sistemidir.
+Bu proje, Ruby Elektronik için geliştirilmiş monolith mimarisinde bir e-ticaret sistemidir.
 
 ## Proje Yapısı
 
-- **ProductService**: Ürün yönetimi
-- **OrderService**: Sipariş yönetimi  
-- **UserService**: Kullanıcı yönetimi
-- **Frontend**: ASP.NET Core MVC web uygulaması
-
+- **Frontend**: Ana ASP.NET Core MVC web uygulaması (Monolith)
+  - **Ürün Yönetimi**: Ürün CRUD işlemleri
+  - **Sipariş Yönetimi**: Sipariş CRUD işlemleri  
+  - **Kullanıcı Yönetimi**: Kullanıcı CRUD işlemleri
+  - **Servis Kayıtları**: Teknik servis kayıt yönetimi
+  - **Admin Paneli**: Yönetim paneli
 
 ## Teknolojiler
 
@@ -20,7 +21,7 @@ Bu proje, Ruby Elektronik için geliştirilmiş mikroservis mimarisinde bir e-ti
 
 ## Özellikler
 
-- ✅ Mikroservis mimarisi
+- ✅ Monolith mimarisi (Windows hosting uyumlu)
 - ✅ PostgreSQL veritabanı entegrasyonu
 - ✅ Entity Framework Core ile ORM
 - ✅ RESTful API endpoints
@@ -29,7 +30,33 @@ Bu proje, Ruby Elektronik için geliştirilmiş mikroservis mimarisinde bir e-ti
 - ✅ Seed data ile örnek veriler
 - ✅ Soft delete desteği
 - ✅ Audit fields (CreatedAt, UpdatedAt)
+- ✅ Admin paneli
+- ✅ PDF rapor oluşturma
+- ✅ Session yönetimi
 
+## Kurulum ve Çalıştırma
+
+1. PostgreSQL veritabanını kurun ve çalıştırın
+2. `appsettings.json` dosyasında veritabanı bağlantı bilgilerini güncelleyin
+3. Projeyi derleyin: `dotnet build`
+4. Projeyi çalıştırın: `dotnet run`
+
+## API Endpoints
+
+- `/api/products` - Ürün yönetimi
+- `/api/users` - Kullanıcı yönetimi
+- `/api/orders` - Sipariş yönetimi
+- `/api/servicerecords` - Servis kayıtları yönetimi
+
+## Admin Paneli
+
+- URL: `/admin`
+- Kullanıcı adı: `admin`
+- Şifre: `12345`
+
+## Windows Hosting Uyumluluğu
+
+Bu proje Windows hosting servislerinde çalışacak şekilde monolith mimarisine dönüştürülmüştür. Tüm mikroservisler tek bir uygulamada birleştirilmiştir.
 
 ## Lisans
 

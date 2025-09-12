@@ -1,45 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using frontend.Models;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Text.Json;
-using System.Text;
-using System;
+using frontend.Data;
 
 namespace frontend.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly HttpClient _httpClient;
-        private readonly string apiUrl = "http://localhost:5144/products";
+        private readonly ApplicationDbContext _context;
 
-        public ProductsController()
+        public ProductsController(ApplicationDbContext context)
         {
-            _httpClient = new HttpClient();
-            _httpClient.Timeout = TimeSpan.FromSeconds(10);
+            _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
             try
             {
-                var response = await _httpClient.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var products = JsonSerializer.Deserialize<List<Product>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                    return View(products ?? new List<Product>());
-                }
-                else
-                {
-                    TempData["Error"] = $"Ürünler yüklenirken hata oluştu: {response.StatusCode}";
-                    return View(new List<Product>());
-                }
+                var products = await _context.Products.Where(p => p.IsActive).ToListAsync();
+                return View(products);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                TempData["Error"] = "Ürünler yüklenirken bağlantı hatası oluştu";
+                TempData["Error"] = $"Ürünler yüklenirken hata oluştu: {ex.Message}";
                 return View(new List<Product>());
             }
         }
@@ -57,24 +41,15 @@ namespace frontend.Controllers
             
             try
             {
-                var json = JsonSerializer.Serialize(product);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PostAsync(apiUrl, content);
-                
-                if (response.IsSuccessStatusCode)
-                {
-                    TempData["Success"] = "Ürün başarıyla eklendi";
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    TempData["Error"] = "Ürün eklenirken hata oluştu";
-                    return View(product);
-                }
+                product.CreatedAt = DateTime.UtcNow;
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Ürün başarıyla eklendi";
+                return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                TempData["Error"] = "Ürün eklenirken bağlantı hatası oluştu";
+                TempData["Error"] = $"Ürün eklenirken hata oluştu: {ex.Message}";
                 return View(product);
             }
         }
@@ -84,19 +59,17 @@ namespace frontend.Controllers
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{apiUrl}/{id}");
-                if (response.IsSuccessStatusCode)
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id && p.IsActive);
+                if (product == null)
                 {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var product = JsonSerializer.Deserialize<Product>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                    return View(product);
+                    TempData["Error"] = "Ürün bulunamadı";
+                    return RedirectToAction("Index");
                 }
-                TempData["Error"] = "Ürün bulunamadı";
-                return RedirectToAction("Index");
+                return View(product);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                TempData["Error"] = "Ürün yüklenirken bağlantı hatası oluştu";
+                TempData["Error"] = $"Ürün yüklenirken hata oluştu: {ex.Message}";
                 return RedirectToAction("Index");
             }
         }
@@ -108,25 +81,27 @@ namespace frontend.Controllers
             
             try
             {
-                product.Id = id;
-                var json = JsonSerializer.Serialize(product);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PutAsync($"{apiUrl}/{id}", content);
-                
-                if (response.IsSuccessStatusCode)
+                var existingProduct = await _context.Products.FindAsync(id);
+                if (existingProduct == null)
                 {
-                    TempData["Success"] = "Ürün başarıyla güncellendi";
+                    TempData["Error"] = "Ürün bulunamadı";
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    TempData["Error"] = "Ürün güncellenirken hata oluştu";
-                    return View(product);
-                }
+                
+                existingProduct.Name = product.Name;
+                existingProduct.Price = product.Price;
+                existingProduct.Description = product.Description;
+                existingProduct.Category = product.Category;
+                existingProduct.IsActive = product.IsActive;
+                existingProduct.UpdatedAt = DateTime.UtcNow;
+                
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Ürün başarıyla güncellendi";
+                return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                TempData["Error"] = "Ürün güncellenirken bağlantı hatası oluştu";
+                TempData["Error"] = $"Ürün güncellenirken hata oluştu: {ex.Message}";
                 return View(product);
             }
         }
@@ -135,19 +110,21 @@ namespace frontend.Controllers
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{apiUrl}/{id}");
-                if (response.IsSuccessStatusCode)
+                var product = await _context.Products.FindAsync(id);
+                if (product == null)
                 {
-                    TempData["Success"] = "Ürün başarıyla silindi";
+                    TempData["Error"] = "Ürün bulunamadı";
+                    return RedirectToAction("Index");
                 }
-                else
-                {
-                    TempData["Error"] = "Ürün silinirken hata oluştu";
-                }
+                
+                product.IsActive = false;
+                product.UpdatedAt = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Ürün başarıyla silindi";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                TempData["Error"] = "Ürün silinirken bağlantı hatası oluştu";
+                TempData["Error"] = $"Ürün silinirken hata oluştu: {ex.Message}";
             }
             
             return RedirectToAction("Index");
