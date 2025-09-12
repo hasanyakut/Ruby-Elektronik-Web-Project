@@ -949,6 +949,10 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
+      "Id": "C:\\Users\\hasan\\eticaret-microservices\\RubyElektronik\\wwwroot\\uploads\\products\\WhatsApp Image 2025-07-12 at 21.57.31_f4194f1a_09b50d4ff40e4eebb3798f6278e6450d.jpg",
+      "PackagePath": "staticwebassets\\uploads\\products\\WhatsApp Image 2025-07-12 at 21.57.31_f4194f1a_09b50d4ff40e4eebb3798f6278e6450d.jpg"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.RubyElektronik.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

@@ -27,6 +27,9 @@ namespace RubyElektronik.Models
         [Display(Name = "Aktif")]
         public bool IsActive { get; set; } = true;
         
+        [Display(Name = "Resim Yolu")]
+        public string? ImagePath { get; set; }
+        
         [Display(Name = "Oluşturulma Tarihi")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         

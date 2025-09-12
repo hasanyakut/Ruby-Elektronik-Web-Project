@@ -1,0 +1,25 @@
+@model IEnumerable<RubyElektronik.Models.Product>
+
+@foreach (var product in Model)
+{
+    <div class="product-card">
+        <div class="product-image">
+            @if (!string.IsNullOrWhiteSpace(product.ImagePath))
+            {
+                <img src="@product.ImagePath" alt="@product.Name" style="width: 100%; height: 100%; object-fit: cover;" />
+            }
+            else
+            {
+                <i class="fas fa-box product-icon"></i>
+            }
+        </div>
+        <div class="product-info">
+            <h3 class="product-name">@product.Name</h3>
+            <div class="product-price">
+                @product.Price.ToString("C", new System.Globalization.CultureInfo("tr-TR"))
+            </div>
+        </div>
+    </div>
+}
+
+

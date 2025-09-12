@@ -21,13 +21,44 @@ public class HomeController : Controller
     {
         try
         {
-            var products = await _context.Products.Where(p => p.IsActive).ToListAsync();
+            var query = _context.Products
+                .Where(p => p.IsActive)
+                .OrderByDescending(p => p.CreatedAt);
+
+            var totalProducts = await query.CountAsync();
+            var products = await query.Take(4).ToListAsync();
+
+            ViewBag.TotalProducts = totalProducts;
             return View(products);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Ürünler yüklenirken hata oluştu");
             return View(new List<Product>());
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> LoadMoreProducts(int skip = 0, int take = 4)
+    {
+        try
+        {
+            if (skip < 0) skip = 0;
+            if (take <= 0 || take > 24) take = 4; // basic guardrails
+
+            var products = await _context.Products
+                .Where(p => p.IsActive)
+                .OrderByDescending(p => p.CreatedAt)
+                .Skip(skip)
+                .Take(take)
+                .ToListAsync();
+
+            return PartialView("_ProductCards", products);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "LoadMoreProducts hata verdi. skip={Skip} take={Take}", skip, take);
+            return StatusCode(500, "Ürünler yüklenirken bir hata oluştu");
         }
     }
 

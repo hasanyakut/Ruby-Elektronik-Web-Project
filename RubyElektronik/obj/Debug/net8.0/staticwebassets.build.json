@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "33PRQWJpyoqztIgMn3nx84OBpOWYvHmd4JkXjoI6VkI=",
+  "Hash": "Hcmz+uhOaSH06wCbQ8OcLGlCsvdDOkdS4D5T10aTpYg=",
   "Source": "RubyElektronik",
   "BasePath": "_content/RubyElektronik",
   "Mode": "Default",
@@ -4537,6 +4537,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Identity": "C:\\Users\\hasan\\eticaret-microservices\\RubyElektronik\\wwwroot\\uploads\\products\\WhatsApp Image 2025-07-12 at 21.57.31_f4194f1a_09b50d4ff40e4eebb3798f6278e6450d.jpg",
+      "SourceId": "RubyElektronik",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\hasan\\eticaret-microservices\\RubyElektronik\\wwwroot\\",
+      "BasePath": "_content/RubyElektronik",
+      "RelativePath": "uploads/products/WhatsApp Image 2025-07-12 at 21.57.31_f4194f1a_09b50d4ff40e4eebb3798f6278e6450d.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\products\\WhatsApp Image 2025-07-12 at 21.57.31_f4194f1a_09b50d4ff40e4eebb3798f6278e6450d.jpg"
     }
   ]
 }

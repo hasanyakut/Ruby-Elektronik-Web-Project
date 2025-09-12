@@ -21,7 +21,7 @@
                 </h5>
             </div>
             <div class="card-body">
-                <form asp-action="EditProduct" method="post">
+                <form asp-action="EditProduct" method="post" enctype="multipart/form-data">
                     <input type="hidden" asp-for="Id" />
                     
                     <div class="mb-3">
@@ -41,6 +41,20 @@
                             <span class="input-group-text">₺</span>
                         </div>
                         <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-image me-1"></i>Ürün Resmi
+                        </label>
+                        <input type="file" name="imageFile" accept="image/*" class="form-control" />
+                        @if (!string.IsNullOrWhiteSpace(Model.ImagePath))
+                        {
+                            <div class="mt-2">
+                                <img src="@Model.ImagePath" alt="Ürün resmi" style="max-height: 150px; border-radius: 8px;" />
+                                <div class="form-text">Yeni bir resim yüklerseniz mevcut resim değiştirilecektir.</div>
+                            </div>
+                        }
                     </div>
                     
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">

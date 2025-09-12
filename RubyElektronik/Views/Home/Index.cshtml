@@ -767,22 +767,14 @@
         
         @if (Model != null && Model.Any())
         {
-            <div class="products-grid">
-                @foreach (var product in Model)
-                {
-                    <div class="product-card">
-                        <div class="product-image">
-                            <i class="fas fa-box product-icon"></i>
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-name">@product.Name</h3>
-                            <div class="product-price">
-                                @product.Price.ToString("C", new System.Globalization.CultureInfo("tr-TR"))
-                            </div>
-
-                        </div>
-                    </div>
-                }
+            <div id="products-grid" class="products-grid">
+                @await Html.PartialAsync("_ProductCards", Model)
+            </div>
+            
+            <div class="text-center mt-4">
+                <button id="load-more" class="btn btn-primary" data-loaded="@Model.Count" data-total="@ViewBag.TotalProducts">
+                    <i class="fas fa-plus me-2"></i>Daha fazla göster
+                </button>
             </div>
             
             <div class="text-center mt-5">

@@ -137,7 +137,7 @@ namespace RubyElektronik.Controllers
 
         [Route("products/create")]
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(Product product)
+        public async Task<IActionResult> CreateProduct(Product product, IFormFile? imageFile)
         {
             // Giriş kontrolü
             if (HttpContext.Session.GetString("AdminLoggedIn") != "true")
@@ -149,6 +149,28 @@ namespace RubyElektronik.Controllers
             
             try
             {
+                // Handle image upload if provided
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    var uploadsRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "products");
+                    if (!Directory.Exists(uploadsRoot))
+                    {
+                        Directory.CreateDirectory(uploadsRoot);
+                    }
+
+                    var safeFileName = Path.GetFileNameWithoutExtension(imageFile.FileName);
+                    var extension = Path.GetExtension(imageFile.FileName);
+                    var uniqueFileName = $"{safeFileName}_{Guid.NewGuid():N}{extension}";
+                    var filePath = Path.Combine(uploadsRoot, uniqueFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(stream);
+                    }
+
+                    product.ImagePath = $"/uploads/products/{uniqueFileName}";
+                }
+
                 product.CreatedAt = DateTime.UtcNow;
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
@@ -194,7 +216,7 @@ namespace RubyElektronik.Controllers
 
         [Route("products/edit/{id}")]
         [HttpPost]
-        public async Task<IActionResult> EditProduct(int id, Product product)
+        public async Task<IActionResult> EditProduct(int id, Product product, IFormFile? imageFile)
         {
             // Giriş kontrolü
             if (HttpContext.Session.GetString("AdminLoggedIn") != "true")
@@ -219,6 +241,39 @@ namespace RubyElektronik.Controllers
                 existingProduct.Category = product.Category;
                 existingProduct.IsActive = product.IsActive;
                 existingProduct.UpdatedAt = DateTime.UtcNow;
+
+                // Handle optional image replacement
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    var uploadsRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "products");
+                    if (!Directory.Exists(uploadsRoot))
+                    {
+                        Directory.CreateDirectory(uploadsRoot);
+                    }
+
+                    var safeFileName = Path.GetFileNameWithoutExtension(imageFile.FileName);
+                    var extension = Path.GetExtension(imageFile.FileName);
+                    var uniqueFileName = $"{safeFileName}_{Guid.NewGuid():N}{extension}";
+                    var filePath = Path.Combine(uploadsRoot, uniqueFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(stream);
+                    }
+
+                    // Optionally delete old file from disk if it exists and is under uploads/products
+                    if (!string.IsNullOrWhiteSpace(existingProduct.ImagePath))
+                    {
+                        var oldPath = existingProduct.ImagePath.Replace("/", Path.DirectorySeparatorChar.ToString());
+                        var oldPhysical = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", oldPath.TrimStart(Path.DirectorySeparatorChar));
+                        if (oldPhysical.Contains(Path.Combine("wwwroot", "uploads", "products")) && System.IO.File.Exists(oldPhysical))
+                        {
+                            try { System.IO.File.Delete(oldPhysical); } catch { /* ignore */ }
+                        }
+                    }
+
+                    existingProduct.ImagePath = $"/uploads/products/{uniqueFileName}";
+                }
                 
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Ürün başarıyla güncellendi";
